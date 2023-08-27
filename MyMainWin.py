@@ -1,10 +1,11 @@
 #主窗口
+import os
 import sys
 import traceback
 
 from PyQt5.QtCore import QMimeData
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QMainWindow, QFileDialog, QMessageBox, QStatusBar, QLabel, \
-    QComboBox
+    QComboBox, QFileSystemModel, QTreeView
 from qgis._core import QgsLayerTreeModel, QgsProject, QgsCoordinateReferenceSystem, QgsMapSettings
 from qgis._gui import QgsLayerTreeMapCanvasBridge, QgsMapCanvas, QgsLayerTreeView
 
@@ -57,7 +58,7 @@ class myMainWin(QMainWindow, Ui_MainWindow):
         # 9 提前给予基本CRS
         self.mapCanvas.setDestinationCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
 
-        # 10 状态栏控件
+         # 10 状态栏控件
         self.statusBar = QStatusBar()
         self.statusBar.setStyleSheet('color: black; border: none')
         self.statusXY = QLabel('{:<40}'.format(''))  # x y 坐标状态
@@ -73,8 +74,22 @@ class myMainWin(QMainWindow, Ui_MainWindow):
         self.statusCrsLabel = QLabel(
             f"坐标系: {self.mapCanvas.mapSettings().destinationCrs().description()}-{self.mapCanvas.mapSettings().destinationCrs().authid()}")
         self.statusBar.addWidget(self.statusCrsLabel)
-
         self.setStatusBar(self.statusBar)
+
+        # 11 文件树
+        # 获取系统所有文件
+        self.model01 = QFileSystemModel()
+        self.model01.setRootPath('')
+        self.filetreeView = QTreeView(self)
+        vl.addWidget(self.filetreeView)
+        self.filetreeView.setModel(self.model01)
+        for col in range(1, 4):
+            self.filetreeView.setColumnHidden(col, True)
+
+        self.filetreeView.doubleClicked.connect(self.doubleClick)#文件树的双击动作
+
+
+
         self.initUI()  # 接口
 
 
@@ -85,6 +100,23 @@ class myMainWin(QMainWindow, Ui_MainWindow):
         self.mapCanvas.xyCoordinates.connect(self.showXY)#显示XY坐标
         self.mapCanvas.scaleChanged.connect(self.showScale)#动态刷新比例尺
         self.statusScaleComboBox.editTextChanged.connect(self.changeScaleForString)#手动输入比例尺
+
+    def doubleClick(self,Qmodelidx):
+        # 获取双击后的指定路径
+        Path = self.model01.filePath(Qmodelidx)
+        if os.path.isdir(Path)==False:#路径是个文件，可以判断是否读取了
+            filePath: str = Path.replace("/", "//")
+            if filePath.split(".")[-1] in ["tif", "TIF", "tiff", "TIFF", "GTIFF", "png", "jpg", "pdf"]:
+                self.addRasterLayer(filePath)
+            elif filePath.split(".")[-1] in ["shp", "SHP", "gpkg", "geojson", "kml"]:
+                self.addVectorLayer(filePath)
+            elif filePath == "":
+                pass
+            else:
+                QMessageBox.about(self, '警告', f'{filePath}为不支持的文件类型，目前支持栅格影像和shp矢量')
+
+
+
 
     def changeScaleForString(self, str):
         try:

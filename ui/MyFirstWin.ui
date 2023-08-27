@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1054</width>
-    <height>825</height>
+    <width>1134</width>
+    <height>857</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1054</width>
+     <width>1134</width>
      <height>26</height>
     </rect>
    </property>
@@ -55,19 +55,6 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents"/>
-  </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="action_OpenShp"/>
-   <addaction name="action_OpenRaster"/>
   </widget>
   <action name="action_OpenShp">
    <property name="text">

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1054, 825)
+        MainWindow.resize(1134, 857)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.frame)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1054, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1134, 26))
         self.menubar.setObjectName("menubar")
         self.menuopen = QtWidgets.QMenu(self.menubar)
         self.menuopen.setObjectName("menuopen")
@@ -43,9 +43,6 @@ class Ui_MainWindow(object):
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.dockWidget.setWidget(self.dockWidgetContents)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.dockWidget)
-        self.toolBar = QtWidgets.QToolBar(MainWindow)
-        self.toolBar.setObjectName("toolBar")
-        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.action_OpenShp = QtWidgets.QAction(MainWindow)
         self.action_OpenShp.setObjectName("action_OpenShp")
         self.action_OpenRaster = QtWidgets.QAction(MainWindow)
@@ -53,8 +50,6 @@ class Ui_MainWindow(object):
         self.menuopen.addAction(self.action_OpenShp)
         self.menuopen.addAction(self.action_OpenRaster)
         self.menubar.addAction(self.menuopen.menuAction())
-        self.toolBar.addAction(self.action_OpenShp)
-        self.toolBar.addAction(self.action_OpenRaster)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -63,6 +58,5 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "大晨GIS软件"))
         self.menuopen.setTitle(_translate("MainWindow", "open"))
-        self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.action_OpenShp.setText(_translate("MainWindow", "打开矢量数据"))
         self.action_OpenRaster.setText(_translate("MainWindow", "打开栅格数据"))
