@@ -2,7 +2,7 @@ from qgis.PyQt import QtCore
 from qgis.core import QgsApplication
 from PyQt5.QtCore import Qt
 from MyMainWin import myMainWin
-
+###############
 if __name__ == '__main__':
     #提供qgis安装路径
     #QgsApplication.setPrefixPath('C:/qgis322/apps/qgis-ltr', True)
