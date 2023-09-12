@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="ico">
+    <file>OpenTif.ico</file>
+    <file>打开.ico</file>
+    <file>logo.ico</file>
+    <file>OpenShp.ico</file>
+    <file>大气校正.ico</file>
+  </qresource>
+</RCC>
