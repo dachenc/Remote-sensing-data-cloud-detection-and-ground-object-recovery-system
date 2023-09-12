@@ -6,48 +6,207 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1134</width>
-    <height>857</height>
+    <width>1685</width>
+    <height>955</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>大晨GIS软件</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>logo.ico</normaloff>logo.ico</iconset>
+   <iconset resource="../resources/MyRc.qrc">
+    <normaloff>:/ico/logo.ico</normaloff>:/ico/logo.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>0</y>
+      <width>1251</width>
+      <height>901</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>1260</x>
+      <y>30</y>
+      <width>321</width>
+      <height>661</height>
+     </rect>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::West</enum>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="tab_open">
+     <attribute name="title">
+      <string>打开</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButton_OpenShp">
+      <property name="enabled">
+       <bool>true</bool>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>101</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>矢量数据</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/MyRc.qrc">
+        <normaloff>:/ico/OpenShp.ico</normaloff>:/ico/OpenShp.ico</iconset>
       </property>
      </widget>
-    </item>
-   </layout>
+     <widget class="QPushButton" name="pushButton_OpenTif">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>101</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>栅格数据</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/MyRc.qrc">
+        <normaloff>:/ico/OpenTif.ico</normaloff>:/ico/OpenTif.ico</iconset>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_pre">
+     <attribute name="title">
+      <string>预处理</string>
+     </attribute>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sentinel-2</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_L1C2L2A">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>101</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>大气校正</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/MyRc.qrc">
+        <normaloff>:/ico/大气校正.ico</normaloff>:/ico/大气校正.ico</iconset>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>1280</x>
+      <y>690</y>
+      <width>301</width>
+      <height>211</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>1280</x>
+      <y>10</y>
+      <width>301</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1134</width>
+     <width>1685</width>
      <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuopen">
+    <property name="tearOffEnabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
-     <string>open</string>
+     <string>打开</string>
+    </property>
+    <property name="separatorsCollapsible">
+     <bool>false</bool>
+    </property>
+    <property name="toolTipsVisible">
+     <bool>false</bool>
     </property>
     <addaction name="action_OpenShp"/>
-    <addaction name="action_OpenRaster"/>
+    <addaction name="action_OpenTif"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>数据预处理</string>
+    </property>
+    <widget class="QMenu" name="menuLandsat">
+     <property name="title">
+      <string>Landsat</string>
+     </property>
+     <addaction name="actionfushe"/>
+     <addaction name="actiondaqi"/>
+    </widget>
+    <widget class="QMenu" name="menuSentinel_2">
+     <property name="title">
+      <string>Sentinel-2</string>
+     </property>
+     <addaction name="action_L1C_L2A"/>
+    </widget>
+    <addaction name="menuLandsat"/>
+    <addaction name="menuSentinel_2"/>
    </widget>
    <addaction name="menuopen"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget">
@@ -57,16 +216,45 @@
    <widget class="QWidget" name="dockWidgetContents"/>
   </widget>
   <action name="action_OpenShp">
+   <property name="icon">
+    <iconset resource="../resources/MyRc.qrc">
+     <normaloff>:/ico/OpenShp.ico</normaloff>:/ico/OpenShp.ico</iconset>
+   </property>
    <property name="text">
     <string>打开矢量数据</string>
    </property>
   </action>
-  <action name="action_OpenRaster">
+  <action name="action_OpenTif">
+   <property name="icon">
+    <iconset resource="../resources/MyRc.qrc">
+     <normaloff>:/ico/OpenTif.ico</normaloff>:/ico/OpenTif.ico</iconset>
+   </property>
    <property name="text">
     <string>打开栅格数据</string>
    </property>
   </action>
+  <action name="actionfushe">
+   <property name="text">
+    <string>fushe</string>
+   </property>
+  </action>
+  <action name="actiondaqi">
+   <property name="text">
+    <string>daqi</string>
+   </property>
+  </action>
+  <action name="action_L1C_L2A">
+   <property name="icon">
+    <iconset resource="../resources/MyRc.qrc">
+     <normaloff>:/ico/大气校正.ico</normaloff>:/ico/大气校正.ico</iconset>
+   </property>
+   <property name="text">
+    <string>大气校正（L1C—&gt;L2A）</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/MyRc.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -2,8 +2,9 @@
 import os
 import sys
 import traceback
+import time
 
-from PyQt5.QtCore import QMimeData
+from PyQt5.QtCore import QMimeData, QThread, pyqtSignal, QDateTime
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QMainWindow, QFileDialog, QMessageBox, QStatusBar, QLabel, \
     QComboBox, QFileSystemModel, QTreeView
 from qgis._core import QgsLayerTreeModel, QgsProject, QgsCoordinateReferenceSystem, QgsMapSettings
@@ -13,10 +14,26 @@ from QgisUtils import QgisLayerUtils
 from QgisUtils.qgisMenu import menuProvider
 from ui.MyFirstWin import Ui_MainWindow
 
-
+from widgetAndDialog.MyAtomosphericDialogWin import myAtomosphericDialog
 
 PROJECT = QgsProject.instance()
 
+
+##子线程1：时间显示
+class TimebackThread(QThread):
+        # 通过类成员对象定义信号对象
+        update_date = pyqtSignal(str)  # 设置触发信号传递的参数数据类型,这里是字符串
+
+        def __init__(self):
+            super(TimebackThread, self).__init__()
+
+        # 处理要做的业务逻辑
+        def run(self):  # 在启动线程后任务从这个函数里面开始执行
+            while True:
+                data = QDateTime.currentDateTime()
+                currTime = data.toString("yyyy-MM-dd hh:mm:ss")
+                self.update_date.emit(str(currTime))  # 任务线程发射信号用于与图形化界面进行交互
+                time.sleep(1)
 
 class myMainWin(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -88,18 +105,47 @@ class myMainWin(QMainWindow, Ui_MainWindow):
 
         self.filetreeView.doubleClicked.connect(self.doubleClick)#文件树的双击动作
 
+        # 12 创建子线程1：timebackend,实时显示时间。
+        self.timebackend = TimebackThread()  # 创建子线程1：timebackend
+        self.timebackend.update_date.connect(self.handleDisplay) #设置任务线程发射信号触发的函数
+        self.timebackend.start()  # 开始子线程1：timebackend
 
+        #13实例化大气校正子窗口
+        self.AtomosphericWin = myAtomosphericDialog()  # 实例化子窗口,不show
+        #self.Atomospheric.my_xin_hao.connect(self.show_list)  # 自定义信号绑定接收函数
+        self.AtomosphericWin.myAtomsignel.connect(self.show_str)
 
         self.initUI()  # 接口
 
-
-
     def initUI(self):
-        self.connectFunction()#链接open的槽函数
+
+        #大气校正
+        self.action_L1C_L2A.triggered.connect(self.openAtomosphericWin)  # 大气校正按钮，激活子窗口。
+        self.pushButton_L1C2L2A.clicked.connect(self.openAtomosphericWin)  # 大气校正按钮，激活子窗口。
+
+        #OpenTif
+        self.action_OpenTif.triggered.connect(self.actionOpenTifTriggered)
+        self.pushButton_OpenTif.clicked.connect(self.actionOpenTifTriggered)
+        #OpenShp
+        self.action_OpenShp.triggered.connect(self.actionOpenShpTriggered)
+        self.pushButton_OpenShp.clicked.connect(self.actionOpenShpTriggered)
+
         self.mapCanvas.destinationCrsChanged.connect(self.showCrs)#改变状态栏
         self.mapCanvas.xyCoordinates.connect(self.showXY)#显示XY坐标
         self.mapCanvas.scaleChanged.connect(self.showScale)#动态刷新比例尺
         self.statusScaleComboBox.editTextChanged.connect(self.changeScaleForString)#手动输入比例尺
+
+
+    def show_str(self,data):
+
+        self.textEdit.append(data)
+
+    def openAtomosphericWin(self):  # 打开子窗口函数
+        self.AtomosphericWin.show()  # 展示子窗口
+
+
+    def handleDisplay(self, data):#将当前时间输出到文本框
+       self.lineEdit.setText(data)
 
     def doubleClick(self,Qmodelidx):
         # 获取双击后的指定路径
@@ -114,8 +160,6 @@ class myMainWin(QMainWindow, Ui_MainWindow):
                 pass
             else:
                 QMessageBox.about(self, '警告', f'{filePath}为不支持的文件类型，目前支持栅格影像和shp矢量')
-
-
 
 
     def changeScaleForString(self, str):
@@ -177,11 +221,7 @@ class myMainWin(QMainWindow, Ui_MainWindow):
                 QMessageBox.about(self, '警告', f'{filePath}为不支持的文件类型，目前支持栅格影像和shp矢量')
 
 
-    def connectFunction(self):
-        self.action_OpenRaster.triggered.connect(self.actionOpenRasterTriggered)
-        self.action_OpenShp.triggered.connect(self.actionOpenShpTriggered)
-
-    def actionOpenRasterTriggered(self):
+    def actionOpenTifTriggered(self):
         #curPath = QDir.currentPath()
         curPath = r"E:\AARS\QGIS\Data"
         title = "选择影像文件"
@@ -222,4 +262,5 @@ class myMainWin(QMainWindow, Ui_MainWindow):
              QgisLayerUtils.addMapLayer(vectorLayer, self.mapCanvas)
 
         # __ui是私有属性，在类外部创建对象，是无法通过对象访问窗体上的组件的，为了访问组件，可以定义接口，实现功能
+
 

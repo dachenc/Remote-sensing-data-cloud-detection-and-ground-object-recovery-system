@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_LayerProp(object):
     def setupUi(self, LayerProp):
         LayerProp.setObjectName("LayerProp")
-        LayerProp.resize(882, 660)
+        LayerProp.resize(913, 487)
         self.horizontalLayout_19 = QtWidgets.QHBoxLayout(LayerProp)
         self.horizontalLayout_19.setObjectName("horizontalLayout_19")
         self.listWidget = QtWidgets.QListWidget(LayerProp)
@@ -363,7 +363,7 @@ class Ui_LayerProp(object):
         self.horizontalLayout_19.addLayout(self.verticalLayout_7)
 
         self.retranslateUi(LayerProp)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.comboTabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(LayerProp)
 
