@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../RS/Pre/.idea/Pre.iml" filepath="$PROJECT_DIR$/../RS/Pre/.idea/Pre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../IT/QT_codeTest2/.idea/QT_codeTest2.iml" filepath="$PROJECT_DIR$/../../IT/QT_codeTest2/.idea/QT_codeTest2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/learnPYQGIS.iml" filepath="$PROJECT_DIR$/.idea/learnPYQGIS.iml" />
       <module fileurl="file://$PROJECT_DIR$/../stu-test/.idea/stu-test.iml" filepath="$PROJECT_DIR$/../stu-test/.idea/stu-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/../test/.idea/test.iml" filepath="$PROJECT_DIR$/../test/.idea/test.iml" />

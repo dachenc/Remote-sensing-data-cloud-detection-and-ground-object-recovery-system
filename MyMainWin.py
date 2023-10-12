@@ -12,10 +12,14 @@ from qgis._gui import QgsLayerTreeMapCanvasBridge, QgsMapCanvas, QgsLayerTreeVie
 
 from QgisUtils import QgisLayerUtils
 from QgisUtils.qgisMenu import menuProvider
+from RsAlgorithm.AtomosphericThred_GF1 import CorrectGFThread
+from RsAlgorithm.AtomosphericThred_landsat8 import CorrectLanThread
+from RsAlgorithm.BandcomThred_landsat8 import BandcomLanThread
 from ui.MyFirstWin import Ui_MainWindow
 
-from widgetAndDialog.MyAtomosphericDialogWin import myAtomosphericDialog
-
+from widgetAndDialog.MyAtomosphericDialogWin_GF1 import myAtomosphericDialog_GF1
+from widgetAndDialog.MyAtomosphericDialogWin_LandSat import myAtomosphericDialog_Lan
+from widgetAndDialog.MyBandcomDialogWin_LandSat import myBandcomDialog_Lan
 PROJECT = QgsProject.instance()
 
 
@@ -107,21 +111,37 @@ class myMainWin(QMainWindow, Ui_MainWindow):
 
         # 12 创建子线程1：timebackend,实时显示时间。
         self.timebackend = TimebackThread()  # 创建子线程1：timebackend
-        self.timebackend.update_date.connect(self.handleDisplay) #设置任务线程发射信号触发的函数
+        self.timebackend.update_date.connect(self.handleDisplay)  # 设置任务线程发射信号触发的函数
         self.timebackend.start()  # 开始子线程1：timebackend
 
-        #13实例化大气校正子窗口
-        self.AtomosphericWin = myAtomosphericDialog()  # 实例化子窗口,不show
-        #self.Atomospheric.my_xin_hao.connect(self.show_list)  # 自定义信号绑定接收函数
-        self.AtomosphericWin.myAtomsignel.connect(self.show_str)
+        # 13实例化大气校正子窗口
+        self.AtomosphericWin_GF1 = myAtomosphericDialog_GF1()  # 实例化子窗口,不show
+        self.AtomosphericWin_GF1.myAtomsignel.connect(self.show_str)#设置子窗口发射信号触发的函数，用于展示信息
+        self.AtomosphericWin_GF1.myAtomsignel_index.connect(self.CorrectGFThreadBegain)#设置子窗口发射信号触发的函数，用于传参来激活子线程
+
+        self.AtomosphericWin_Lan = myAtomosphericDialog_Lan()  # 实例化子窗口,不show
+        self.AtomosphericWin_Lan.myAtomsignel.connect(self.show_str)  # 设置子窗口发射信号触发的函数，用于展示信息
+        self.AtomosphericWin_Lan.myAtomsignel_index.connect(self.CorrectLanThreadBegain)  # 设置子窗口发射信号触发的函数，用于传参来激活子线程
+
+        #14实例化landsat8波段合成窗口。
+        self.BandcomWin_Lan=myBandcomDialog_Lan()#实例化子窗口，不show
+        self.BandcomWin_Lan.myAtomsignel.connect(self.show_str)
+        self.BandcomWin_Lan.myAtomsignel_index.connect(self.BandcomLanThreadBegain)  # 设置子窗口发射信号触发的函数，用于传参来激活子线程
 
         self.initUI()  # 接口
 
+
     def initUI(self):
 
-        #大气校正
-        self.action_L1C_L2A.triggered.connect(self.openAtomosphericWin)  # 大气校正按钮，激活子窗口。
-        self.pushButton_L1C2L2A.clicked.connect(self.openAtomosphericWin)  # 大气校正按钮，激活子窗口。
+        #大气校正，激活子窗口同时创建子线程。
+        self.actionGF1 .triggered.connect(self.openAtomosphericWin_GF1)  # 大气校正按钮，激活子窗口。
+        self.pushButton_GF1Ato .clicked.connect(self.openAtomosphericWin_GF1)  # 大气校正按钮，激活子窗口。
+        self.actionLandsat8.triggered.connect(self.openAtomosphericWin_LandSat8)
+        self.pushButton_LanAto.clicked.connect(self.openAtomosphericWin_LandSat8)
+        #LandSat8波段合成子窗口
+        self.actionLanBandcom.triggered.connect(self.openBandcomWin_LandSat8)
+        self.pushButton_LanBandcom.clicked.connect(self.openBandcomWin_LandSat8)
+
 
         #OpenTif
         self.action_OpenTif.triggered.connect(self.actionOpenTifTriggered)
@@ -137,15 +157,44 @@ class myMainWin(QMainWindow, Ui_MainWindow):
 
 
     def show_str(self,data):
-
         self.textEdit.append(data)
 
-    def openAtomosphericWin(self):  # 打开子窗口函数
-        self.AtomosphericWin.show()  # 展示子窗口
+    def CorrectGFThreadBegain(self,inpath,outpath):
+        self.GFthread.InputFilename=inpath
+        self.GFthread.OutputFilename=outpath
+        self.GFthread.start()#启动子线程，GF辐射定标，大气校正。
 
+    def CorrectLanThreadBegain(self, inpath, outpath):
+        self.Lanthread.InputFilename = inpath
+        self.Lanthread.TempFilename = outpath
+        self.Lanthread.start()  # 启动子线程，GF辐射定标，大气校正。
+
+    def BandcomLanThreadBegain(self,inpath,outpath,bandid):
+        self.LanBandcomthread.InputFilename = inpath
+        self.LanBandcomthread.OutputFilename = outpath
+        self.LanBandcomthread.bandid = bandid
+        self.LanBandcomthread.start()  # 启动子线程
+
+    def openAtomosphericWin_GF1(self):  # 打开子窗口函数，同时创建子线程
+        self.GFthread = CorrectGFThread()  # 创建子线程
+        self.GFthread.correct_GF1.connect(self.show_str)  # 设置子线程发射信号触发的函数
+
+        self.AtomosphericWin_GF1.show()  # 展示子窗口
+
+    def openAtomosphericWin_LandSat8(self):  # 打开子窗口函数，同时创建子线程
+        self.Lanthread = CorrectLanThread()  # 创建子线程
+        self.Lanthread.correct_landsat8.connect(self.show_str)  # 设置子线程发射信号触发的函数
+
+        self.AtomosphericWin_Lan.show()  # 展示子窗口
+
+    def openBandcomWin_LandSat8(self):
+        self.LanBandcomthread=BandcomLanThread()
+        self.LanBandcomthread.bandcom_landsat8.connect(self.show_str)
+        self.BandcomWin_Lan.show()#展示子窗口
 
     def handleDisplay(self, data):#将当前时间输出到文本框
        self.lineEdit.setText(data)
+
 
     def doubleClick(self,Qmodelidx):
         # 获取双击后的指定路径
@@ -221,7 +270,7 @@ class myMainWin(QMainWindow, Ui_MainWindow):
                 QMessageBox.about(self, '警告', f'{filePath}为不支持的文件类型，目前支持栅格影像和shp矢量')
 
 
-    def actionOpenTifTriggered(self):
+    def actionOpenTifTriggered(self):#打开影像
         #curPath = QDir.currentPath()
         curPath = r"E:\AARS\QGIS\Data"
         title = "选择影像文件"
@@ -233,7 +282,7 @@ class myMainWin(QMainWindow, Ui_MainWindow):
         else:
             self.addRasterLayer(fileName)
 
-    def actionOpenShpTriggered(self):
+    def actionOpenShpTriggered(self):#打开矢量文件
         curPath = r"E:\AARS\QGIS\Data"
         title = "选择矢量文件"
         filt = "*.shp *.SHP;;所有文件(*.*)"

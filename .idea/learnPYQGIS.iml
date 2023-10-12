@@ -6,5 +6,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="test" />
     <orderEntry type="module" module-name="stu-test" />
+    <orderEntry type="module" module-name="Pre" />
+    <orderEntry type="module" module-name="QT_codeTest2" />
   </component>
 </module>

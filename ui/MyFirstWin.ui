@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>大晨GIS软件</string>
+   <string>遥感之星GIS软件</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resources/MyRc.qrc">
@@ -40,7 +40,7 @@
       <x>1260</x>
       <y>30</y>
       <width>321</width>
-      <height>661</height>
+      <height>601</height>
      </rect>
     </property>
     <property name="tabPosition">
@@ -67,7 +67,7 @@
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>101</width>
+        <width>271</width>
         <height>61</height>
        </rect>
       </property>
@@ -86,8 +86,8 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>170</y>
-        <width>101</width>
+        <y>240</y>
+        <width>271</width>
         <height>61</height>
        </rect>
       </property>
@@ -104,37 +104,126 @@
      <attribute name="title">
       <string>预处理</string>
      </attribute>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>0</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Sentinel-2</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_L1C2L2A">
+     <widget class="QPushButton" name="pushButton_GF1Ato">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>30</x>
         <y>30</y>
-        <width>101</width>
-        <height>61</height>
+        <width>231</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="text">
-       <string>大气校正</string>
+       <string>GF1辐射校正</string>
       </property>
-      <property name="icon">
-       <iconset resource="../resources/MyRc.qrc">
-        <normaloff>:/ico/大气校正.ico</normaloff>:/ico/大气校正.ico</iconset>
+     </widget>
+     <widget class="QPushButton" name="pushButton_LanAto">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>140</y>
+        <width>231</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Landsat-8辐射校正</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_SenAto">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>330</y>
+        <width>231</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sentinel-2辐射校正</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_LanBandcom">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>220</y>
+        <width>231</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Landsat-8波段合成</string>
+      </property>
+     </widget>
+     <widget class="Line" name="line">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>100</y>
+        <width>291</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="Line" name="line_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>290</y>
+        <width>291</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_SenResampled">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>420</y>
+        <width>231</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sentinel-2格式转换</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_SenBandcom">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>500</y>
+        <width>231</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sentinel-2波段合成</string>
       </property>
      </widget>
     </widget>
@@ -143,9 +232,9 @@
     <property name="geometry">
      <rect>
       <x>1280</x>
-      <y>690</y>
+      <y>630</y>
       <width>301</width>
-      <height>211</height>
+      <height>271</height>
      </rect>
     </property>
    </widget>
@@ -189,21 +278,14 @@
     <property name="title">
      <string>数据预处理</string>
     </property>
-    <widget class="QMenu" name="menuLandsat">
-     <property name="title">
-      <string>Landsat</string>
-     </property>
-     <addaction name="actionfushe"/>
-     <addaction name="actiondaqi"/>
-    </widget>
-    <widget class="QMenu" name="menuSentinel_2">
-     <property name="title">
-      <string>Sentinel-2</string>
-     </property>
-     <addaction name="action_L1C_L2A"/>
-    </widget>
-    <addaction name="menuLandsat"/>
-    <addaction name="menuSentinel_2"/>
+    <addaction name="actionGF1"/>
+    <addaction name="separator"/>
+    <addaction name="actionLandsat8"/>
+    <addaction name="actionLanBandcom"/>
+    <addaction name="separator"/>
+    <addaction name="actionSentinel2"/>
+    <addaction name="actionSentinel_SenResampled"/>
+    <addaction name="actionSentinel_SenBandcom"/>
    </widget>
    <addaction name="menuopen"/>
    <addaction name="menu"/>
@@ -250,6 +332,36 @@
    </property>
    <property name="text">
     <string>大气校正（L1C—&gt;L2A）</string>
+   </property>
+  </action>
+  <action name="actionGF1">
+   <property name="text">
+    <string>GF1辐射校正</string>
+   </property>
+  </action>
+  <action name="actionLandsat8">
+   <property name="text">
+    <string>Landsat8辐射校正</string>
+   </property>
+  </action>
+  <action name="actionSentinel2">
+   <property name="text">
+    <string>Sentinel2辐射校正</string>
+   </property>
+  </action>
+  <action name="actionLanBandcom">
+   <property name="text">
+    <string>LandSat8波段合成</string>
+   </property>
+  </action>
+  <action name="actionSentinel_SenResampled">
+   <property name="text">
+    <string>Sentinel-2格式转换</string>
+   </property>
+  </action>
+  <action name="actionSentinel_SenBandcom">
+   <property name="text">
+    <string>Sentinel-2波段合成</string>
    </property>
   </action>
  </widget>
